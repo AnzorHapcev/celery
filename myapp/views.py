@@ -1,3 +1,12 @@
 from django.shortcuts import render
+from django.views import View
+from django.http import HttpResponse
+from .tasks import sleeped, send_email_task
 
-# Create your views here.
+
+class MainView(View):
+
+    def get(self, request):
+        send_email_task.delay()
+        return HttpResponse('<p>Email send</p>')
+
